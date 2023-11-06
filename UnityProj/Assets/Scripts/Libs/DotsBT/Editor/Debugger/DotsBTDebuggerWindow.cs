@@ -11,17 +11,17 @@ namespace DotsBT.Debugger.ED
 {
     public class DotsBtDebuggerWindow : OdinMenuEditorWindow
     {
-        private EdSelection _selection;
+        private EdUnitSelection _selection;
         public List<EdUnit> _all_units = new List<EdUnit>();        
 
-        public EdSelection EdSelection
+        public EdUnitSelection EdSelection
         {
             get
             {
                 if (_selection == null)
                 {
-                    _selection = new EdSelection();
-                    _selection.OnSelectionChanged = _OnObjectSelectionChanged;
+                    _selection = new EdUnitSelection();
+                    _selection.OnSelectionChanged = _OnUnitSelectionChanged;
                 }
                 return _selection;
             }
@@ -70,26 +70,18 @@ namespace DotsBT.Debugger.ED
             return tree;
         }
 
-        private void _OnObjectSelectionChanged()
+        private void _OnUnitSelectionChanged(int unit_id)
         {
-            //1. 根据当前的 Selection 找到 GhostId
-            GameObject obj = Selection.activeObject as GameObject;
-            if (obj == null)
-                return;
-            DotsBTDebugEntityIndexContainer comp = obj.GetComponentInParent<DotsBTDebugEntityIndexContainer>();
-            if (comp == null || comp.ghostId == 0)
-                return;
-
             //2. 判断当前Window 选中的Item 是否和目标GhostId一样
             EdUnit cur_item = this.MenuTree.Selection.SelectedValue as EdUnit;
-            if (cur_item != null && cur_item.UnitID == comp.ghostId)
+            if (cur_item != null && cur_item.UnitID == unit_id)
                 return;
 
             //3. 找到索引
             int index = -1;
             for (int i = 0; i < _all_units.Count; i++)
             {
-                if (_all_units[i].UnitID == comp.ghostId)
+                if (_all_units[i].UnitID == unit_id)
                 {
                     index = i;
                     break;
@@ -111,9 +103,6 @@ namespace DotsBT.Debugger.ED
             EdUnit cur_item = cur as EdUnit;
             cur_item.OnSelect();
         }         
-    }
-
-
-   
+    }  
 }
 
