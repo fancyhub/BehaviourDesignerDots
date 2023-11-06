@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using BehaviorDesigner.Runtime.Tasks;
 using BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform;
 using UnityEngine;
@@ -38,7 +38,7 @@ namespace DotsBT.UnityTransform
             //vm.EcsWorld.EntityManager.SetComponentData(e, tran);
 
             vm.Ecb.SetComponent(e, tran);
-            Debug.Log("rotate one time");
+            //Debug.Log("rotate one time");
             return EBTStatus.Success;
 
         }

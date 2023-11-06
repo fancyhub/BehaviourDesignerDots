@@ -85,7 +85,7 @@ namespace DotsBT
 
                     if (!BTVarVT.GetInfo(var, out var info))
                     {
-                        throw new Exception("");
+                        throw new Exception("找不到 Var "+var.GetType() + " 对应的Virtual Table");
                     }
 
                     item.Name = name;

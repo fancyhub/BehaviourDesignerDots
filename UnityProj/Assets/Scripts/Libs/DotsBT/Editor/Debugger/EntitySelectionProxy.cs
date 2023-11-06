@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using Unity.Entities;
 
-namespace DotsBT.ED
+namespace DotsBT.Debugger.ED
 {
     //Ref Unity.Entities.Editor.EntitySelectionProxy
     public class EntitySelectionProxy

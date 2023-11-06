@@ -26,22 +26,6 @@ namespace DotsBT
         }
 
 
-        // public static BTPtr BakeVar(BTBakeContextVar context, SharedVariable var)
-        // {
-        //     EBTVar meta = GetMeta(var);
-        //     switch (meta)
-        //     {
-        //         case EBTVar.VarBool: return (new BTVarBool()).BakeVar(context, var);
-        //         case EBTVar.VarInt: return (new BTVarInt()).BakeVar(context, var);
-        //         case EBTVar.VarFloat: return (new BTVarFloat()).BakeVar(context, var);
-        //         case EBTVar.VarVector3: return (new BTVarVector3()).BakeVar(context, var);
-        //         case EBTVar.VarGameObject: return (new BTVarGameObject()).BakeVar(context, var);
-        //         case EBTVar.VarBtExVarEnum: return (new BTVarBtExVarEnum()).BakeVar(context, var);
-        //         default:
-        //             throw new Exception($"未知类型 {meta}");
-        //     }
-        // }
-
         public static object GetBoxedValue(ref BTMemory memory, BTPtr ptr, EBTVar meta)
         {
             if (ptr.IsNull)

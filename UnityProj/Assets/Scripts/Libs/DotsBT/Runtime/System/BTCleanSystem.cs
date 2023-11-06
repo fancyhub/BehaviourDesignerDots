@@ -1,11 +1,7 @@
 using Unity.Entities;
-using Unity.Collections;
-using Unity.Burst;
-using Unity.Collections.LowLevel.Unsafe;
 
 namespace DotsBT
-{     
-    
+{   
     public partial struct BTCleanSystem : ISystem
     {
         public void OnCreate(ref SystemState state)

@@ -271,7 +271,7 @@ MonoBehaviour:
   gizmoViewMode: 2
   showBehaviorDesignerGizmo: 1
   UseOrig: 0
-  GlobalVar: {fileID: 5143307238692543986, guid: 23fac5db766026941b4b6ed54c14a05c, type: 3}
+  GlobalVar: {fileID: 9207775156950150673, guid: 23fac5db766026941b4b6ed54c14a05c, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3200997274626415953}
   - component: {fileID: 9207775156950150673}
   m_Layer: 0
-  m_Name: BehaviorDesignerGlobalVariables
+  m_Name: DotsGlobalVars
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

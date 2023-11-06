@@ -12,28 +12,22 @@ namespace DotsBT
 
     }
 
-    
+
     [UpdateInGroup(typeof(BTSystemGroup))]
     public partial struct BTSetupSystem : ISystem
     {
 
     }
 
-    
+
     [UpdateInGroup(typeof(BTSystemGroup))]
     public partial struct BTExeSystem : ISystem
     {
 
     }
-    
+
     [UpdateInGroup(typeof(BTSystemGroup))]
     public partial struct BTCleanSystem : ISystem
-    {
-
-    }
-
-    [UpdateInGroup(typeof(BTSystemGroup))]
-    public partial struct BTDebugSystem : ISystem
     {
 
     }

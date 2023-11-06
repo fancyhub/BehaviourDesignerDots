@@ -72,13 +72,15 @@ namespace DotsBT
 
         public override void Bake(DotsBehaviorTree authoring)
         {
-            authoring.EdLoadGlobalVarPrefab();
-
-            if (authoring.GlobalVar == null)
+            if(authoring.GlobalVar== null)
             {
-                UnityEngine.Debug.LogError($"Bake {authoring.name} 有问题, 没有找到 Global Var Prefab");
-                return;
-            }
+                authoring.EdLoadGlobalVarPrefab();
+                if (authoring.GlobalVar == null)
+                {
+                    UnityEngine.Debug.LogError($"Bake {authoring.name} 有问题, 没有找到 Global Var Prefab");
+                    return;
+                }
+            }            
 
             if (Bake(authoring, authoring.GlobalVar, this, out var comp))
             {

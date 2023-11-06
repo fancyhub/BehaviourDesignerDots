@@ -6,19 +6,23 @@ namespace DotsBT
 {
     public class DotsGlobalVar : MonoBehaviour
     {
-        public const string CPath = "BtDots/BehaviorDesignerGlobalVariables";
+        public const string CPath = "BtDots/DotsGlobalVars";
 
         public GlobalVariables variables;
+        private static DotsGlobalVar _Inst;
 
 
         public static DotsGlobalVar Load()
         {
-            var ret= Resources.Load<DotsGlobalVar>(CPath);
-            if(ret  ==null)
+            if(_Inst==null)
             {
-                Debug.LogError("Cant find global var prefab: "+ CPath+".prefab");
+                _Inst= Resources.Load<DotsGlobalVar>(CPath);
+                if (_Inst == null)
+                {
+                    Debug.LogError("Cant find global var prefab: " + CPath + ".prefab");
+                }                
             }
-            return ret;            
+            return _Inst;
         }
     }
 

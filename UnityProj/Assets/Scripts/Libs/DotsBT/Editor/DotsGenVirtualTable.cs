@@ -14,8 +14,20 @@ namespace DotsBT.ED
         [UnityEditor.MenuItem("Tools/Behaivor Designer(Dots)/Gen Virtual Table",priority =200)]
         public static void Gen()
         {
-            GenNodeVT();
-            GenVarVT();
+            GenNodeVT(true);
+            GenVarVT(true);
+
+            UnityEditor.AssetDatabase.ImportAsset(C_Node_FILE);
+            UnityEditor.AssetDatabase.ImportAsset(C_Var_FILE);
+        }
+
+        [UnityEditor.MenuItem("Tools/Behaivor Designer(Dots)/Clear Virtual Table", priority = 200)]
+        public static void Clear()
+        {
+            GenNodeVT(false);
+            GenVarVT(false);
+            UnityEditor.AssetDatabase.ImportAsset(C_Node_FILE);
+            UnityEditor.AssetDatabase.ImportAsset(C_Var_FILE);
         }
 
         public class EdBTFuncParamInfo
@@ -95,15 +107,23 @@ namespace DotsBT.ED
 
             public Type BD_Type;
             public Type BD_ValueType;
-        }
+        }    
 
-    
-
-        public static void GenNodeVT()
+        public static void GenNodeVT(bool gen)
         {
-            List<EdBTNodeInfo> node_list = _EDCollectNodeInfos();
-            List<EdBTFuncInfo> func_list = _EdGetFuncList<IBTNode>();
+            List<EdBTNodeInfo> node_list;
+            List<EdBTFuncInfo> func_list= _EdGetFuncList<IBTNode>();
             //VersionControlTools.Checkout(C_Node_FILE);
+
+            if (gen)
+            {
+                node_list = _EDCollectNodeInfos();
+            }
+            else
+            {
+                node_list = new List<EdBTNodeInfo>();
+            }
+
             using System.IO.StreamWriter sw = new System.IO.StreamWriter(C_Node_FILE);
 
             sw.WriteLine(@"//Auto Gen
@@ -127,10 +147,14 @@ namespace DotsBT
             sw.WriteLine("\t}\n}");
         }
 
-        public static void GenVarVT()
+        public static void GenVarVT(bool gen)
         {
-            List<EdBTVarInfo> var_list = _EdCollectVarInfos();
-            List<EdBTFuncInfo> func_list = _EdGetFuncList<IBTVar>();
+            List<EdBTVarInfo> var_list = null;
+            if (gen)
+                var_list = _EdCollectVarInfos();
+            else
+                var_list = new List<EdBTVarInfo>();
+
             //VersionControlTools.Checkout(C_Var_FILE);
             using System.IO.StreamWriter sw = new System.IO.StreamWriter(C_Var_FILE);
 
@@ -218,7 +242,7 @@ namespace DotsBT
                         continue;
                     if (!isCtor)
                     {
-                        sw.Write($"\t\t[BurstCompile]\n\t\t[AOT.MonoPInvokeCallback(typeof(NodeAction_{func_info.Name}))]\n");
+                        //sw.Write($"\t\t[BurstCompile]\n\t\t[AOT.MonoPInvokeCallback(typeof(NodeAction_{func_info.Name}))]\n");
                     }
                     sw.Write($"\t\tprivate static {func_info.GetDeclareStr()} _NodeAction_{func_info.Name}_{node.SelfMeta}({str_pararm_declare_list})");
                     sw.Write("{");

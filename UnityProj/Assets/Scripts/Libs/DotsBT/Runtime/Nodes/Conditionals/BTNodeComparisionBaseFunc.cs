@@ -1,7 +1,21 @@
-﻿using System;
+using System;
 
 namespace DotsBT
 {
+    public enum EMathOperation
+    {
+        LessThan,
+        LessThanOrEqualTo,
+        EqualTo,
+        NotEqualTo,
+        GreaterThanOrEqualTo,
+        GreaterThan,
+        BetweenAndExcludeBoth,
+        BetweenAndIncludeLeft,
+        BetweenAndIncludeRight,
+        BetweenAndIncludeBoth,
+    }
+
     public struct BTNodeComparisionBaseFunc
     {
         public static bool CompareValue<T>(EMathOperation operation , T value, T target, T min, T max) where T : unmanaged,IComparable<T>

@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System;
 
-namespace DotsBT.ED
+namespace DotsBT.GraphView.ED
 {
 
 

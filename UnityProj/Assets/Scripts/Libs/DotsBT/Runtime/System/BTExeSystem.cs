@@ -8,24 +8,39 @@ namespace DotsBT
     public partial struct BTExeSystem : ISystem
     {
         public BTEcsLookup _lookup;
-        public BTNodeVT.NodeActionDict _node_action_dict;
+        public NativeArray<byte> _debugStatus;
 
         public void OnCreate(ref SystemState state)
         {
             _lookup = new BTEcsLookup();
             _lookup.Init(ref state);
-            _node_action_dict = BTNodeVT.CreateEmptyActionDict(Allocator.Persistent);
 
+#if UNITY_EDITOR
+            _debugStatus = new NativeArray<byte>(1024, Allocator.Persistent);
+
+            var debugComp = new BtDebugComp();
+            debugComp.Status = _debugStatus;
+            state.EntityManager.CreateSingleton(debugComp);
+#endif            
         }
 
         public void OnDestroy(ref SystemState state)
         {
-            _node_action_dict.Dispose();
+            _debugStatus.Dispose();
         }
 
         //[BurstCompile]
         public unsafe void OnUpdate(ref SystemState state)
         {
+            BtDebugComp debugComp = new BtDebugComp();
+#if UNITY_EDITOR
+            if(SystemAPI.TryGetSingleton<BtDebugComp>(out debugComp))
+            {
+                debugComp.FrameIndex++;
+                SystemAPI.SetSingleton(debugComp);
+            }            
+#endif
+
             _lookup.Update(ref state);
 
             EntityCommandBuffer ecb = SystemAPI.GetSingletonRW<BeginSimulationEntityCommandBufferSystem.Singleton>().ValueRW.CreateCommandBuffer(state.WorldUnmanaged);
@@ -34,16 +49,8 @@ namespace DotsBT
                 _lookup = _lookup,
                 _ecb = ecb.AsParallelWriter(),
                 _time = SystemAPI.Time,
-                _node_action_vt = new BTNodeVT.NodeActionDictRT(_node_action_dict),
+                _debugComp = debugComp,
             };
-
-#if UNITY_EDITOR
-            if (SystemAPI.TryGetSingleton(out job._debug_status_array))
-            {
-                job._debug_status_array.FrameIndex++;
-                SystemAPI.SetSingleton(job._debug_status_array);
-            }
-#endif
 
             state.Dependency = job.ScheduleParallel(state.Dependency);
         }
@@ -56,10 +63,8 @@ namespace DotsBT
 
             [ReadOnly] public BTEcsLookup _lookup;
             [ReadOnly] public Unity.Core.TimeData _time;
-            [ReadOnly] public BTNodeVT.NodeActionDictRT _node_action_vt;
             public EntityCommandBuffer.ParallelWriter _ecb;
-
-            public DotsBTRuntimeArrayComp _debug_status_array;
+            public BtDebugComp _debugComp;
 
             //[BurstCompile]
             public void Execute(ref BTComponentRunTimeData bt_comp, [ChunkIndexInQuery] int sortKey, in Entity e)
@@ -84,11 +89,11 @@ namespace DotsBT
                     Memory = bt_comp.Memory,
                     BlackBoard = bt_comp.BlackBoard,
 
+                    Ecb = new BTEntityCommandBuffer(_ecb, sortKey),
                     EcsLookup = _lookup,
                     Time = time,
-                    DebugStatusArray = _debug_status_array.CreateArray(e),
-                    NodeActionVT = _node_action_vt,
-                    Ecb = new BTEntityCommandBuffer(_ecb, sortKey),
+
+                    DebugStatusArray = _debugComp.CreateArray(e),                    
                 };
                 bt_comp.Status = vm.UpdateNode(bt_comp.RootTask);
             }

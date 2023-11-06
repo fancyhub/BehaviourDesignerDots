@@ -102,7 +102,7 @@ namespace DotsBT
                                     if (ptr_ptr.IsNull)
                                         break;
                                     BTPtr next_ptr = memory.GetValue<BTPtr>(ptr_ptr);
-                                    UnityEngine.Debug.Log($"替换 位置 {ptr_ptr} -> {value_ptr}");
+                                    //UnityEngine.Debug.Log($"替换 位置 {ptr_ptr} -> {value_ptr}");
                                     memory.SetValue(ptr_ptr, value_ptr);
                                     ptr_ptr = next_ptr;
                                 }
