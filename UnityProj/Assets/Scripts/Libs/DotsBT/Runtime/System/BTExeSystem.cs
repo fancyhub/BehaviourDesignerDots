@@ -38,11 +38,11 @@ namespace DotsBT
             };
 
 #if UNITY_EDITOR
-            //if (SystemAPI.TryGetSingleton(out job._debug_status_array))
-            //{
-            //    job._debug_status_array.FrameIndex++;
-            //    SystemAPI.SetSingleton(job._debug_status_array);
-            //}
+            if (SystemAPI.TryGetSingleton(out job._debug_status_array))
+            {
+                job._debug_status_array.FrameIndex++;
+                SystemAPI.SetSingleton(job._debug_status_array);
+            }
 #endif
 
             state.Dependency = job.ScheduleParallel(state.Dependency);
@@ -59,7 +59,7 @@ namespace DotsBT
             [ReadOnly] public BTNodeVT.NodeActionDictRT _node_action_vt;
             public EntityCommandBuffer.ParallelWriter _ecb;
 
-            //public DotsBTRuntimeArrayComp _debug_status_array;
+            public DotsBTRuntimeArrayComp _debug_status_array;
 
             //[BurstCompile]
             public void Execute(ref BTComponentRunTimeData bt_comp, [ChunkIndexInQuery] int sortKey, in Entity e)
@@ -86,7 +86,7 @@ namespace DotsBT
 
                     EcsLookup = _lookup,
                     Time = time,
-                    //DebugStatusArray = _debug_status_array.CreateArray(e),
+                    DebugStatusArray = _debug_status_array.CreateArray(e),
                     NodeActionVT = _node_action_vt,
                     Ecb = new BTEntityCommandBuffer(_ecb, sortKey),
                 };

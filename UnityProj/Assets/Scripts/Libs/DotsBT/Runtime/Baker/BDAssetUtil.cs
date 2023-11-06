@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -29,7 +29,7 @@ namespace DotsBT
             }
         }
 
-
+        //Copy From Behavior Desginer reflection code
         private static class MyBinaryDeserialization
         {
             private class ObjectFieldMap

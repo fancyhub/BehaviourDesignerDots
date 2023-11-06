@@ -30,5 +30,11 @@ namespace DotsBT
     public partial struct BTCleanSystem : ISystem
     {
 
-    }    
+    }
+
+    [UpdateInGroup(typeof(BTSystemGroup))]
+    public partial struct BTDebugSystem : ISystem
+    {
+
+    }
 }

@@ -37,6 +37,26 @@ namespace DotsBT.ED
             Debug.Log("Create Succ " + path);
         }
 
+        [MenuItem("Tools/Behaivor Designer(Dots)/Create Graph View Config")]
+        public static void CreateGraphViewConfig()
+        {
+            var asset = UnityEditor.AssetDatabase.LoadAssetAtPath<DotsBTGraphViewConfig>(DotsBTGraphViewConfig.CPath);
+            if (asset != null)
+                return;
+
+            if(!_CreateFolder(System.IO.Path.GetDirectoryName(DotsBTGraphViewConfig.CPath)))
+            {
+                return;
+            }
+
+            asset= ScriptableObject.CreateInstance<DotsBTGraphViewConfig>();
+            AssetDatabase.CreateAsset(asset, DotsBTGraphViewConfig.CPath);
+
+            Debug.Log("Create Succ " + DotsBTGraphViewConfig.CPath);
+        }
+
+        
+
         private static bool _CreateFolder(string path)
         {
             if (System.IO.Directory.Exists(path))

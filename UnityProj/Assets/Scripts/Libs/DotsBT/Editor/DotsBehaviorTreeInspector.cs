@@ -17,6 +17,8 @@ namespace DotsBT.ED
                 EditorGUILayout.Toggle("UseOrig", tar.UseOrig);
             else
                 tar.UseOrig = EditorGUILayout.Toggle("UseOrig", tar.UseOrig);
+
+            EditorGUILayout.ObjectField("DotsGlobalVar",tar.GlobalVar, typeof(DotsGlobalVar),false);
             base.OnInspectorGUI();
         }
     }
